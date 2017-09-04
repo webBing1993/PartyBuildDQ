@@ -128,6 +128,7 @@ class Wechat extends Admin
                         }
                     }
                     $user['extattr'] = json_encode($user['extattr']);
+                    $user['order'] = json_encode($user['order']);
                 }
                 if(WechatUser::get(['userid'=>$user['userid']])) {
 //                    unset($user['extattr']);
