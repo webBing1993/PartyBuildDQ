@@ -430,7 +430,7 @@ class Rank extends Base {
                 if ($v['id'] != 2){
                     $last[$k] = $v;
                 } else {
-                    $personal['contrast']= $k;
+                    $personal['contrast']= $k+1;
                 }
             }
         }
