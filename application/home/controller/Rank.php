@@ -429,11 +429,20 @@ class Rank extends Base {
             if($k < 20){ //取小于20名排行
                 if ($v['id'] != 2){
                     $last[$k] = $v;
+                } else {
+                    $personal['contrast']= $k;
                 }
             }
         }
+
+        // 由于测试部门不显示,后面排序的顶替上去
+        if($personal['contrast'] < $personal['rank']) {
+            $personal['rank']--;
+        }
+
         $this->assign('all',$last);
         $this->assign('personal',$personal);
+
 
         //获取周榜信息
         date_default_timezone_set("PRC");        //初始化时区
@@ -474,6 +483,9 @@ class Rank extends Base {
         $new1 = array();
         foreach ($list1 as $u => $val){
             $count = count($list1[$u])*1;
+            if ($u == 'visitor') {
+                continue;
+            }
             $cen['userid'] = $u;
             $cen['score'] = $count;
             $new1[] = $cen;
@@ -488,6 +500,9 @@ class Rank extends Base {
         $new2 = array();
         foreach ($list2 as $u => $val){
             $count = count($list2[$u])*1;
+            if ($u == 'visitor') {
+                continue;
+            }
             $cen['userid'] = $u;
             $cen['score'] = $count;
             $new2[] = $cen;
@@ -502,6 +517,9 @@ class Rank extends Base {
         $new3 = array();
         foreach ($list3 as $u => $val){
             $count = count($list3[$u])*1;
+            if ($u == 'visitor') {
+                continue;
+            }
             $cen['userid'] = $u;
             $cen['score'] = $count;
             $new3[] = $cen;
@@ -518,6 +536,9 @@ class Rank extends Base {
             $count = 0;
             foreach($val as $valu){
                 $count += $valu->score;
+            }
+            if ($u == 'visitor') {
+                continue;
             }
             $cen['userid'] = $u;
             $cen['score'] = $count;
@@ -634,6 +655,9 @@ class Rank extends Base {
         $new1_m = array();
         foreach ($list1_m as $u => $val){
             $count = count($list1_m[$u])*1;
+            if ($u == 'visitor') {
+                continue;
+            }
             $cen['userid'] = $u;
             $cen['score'] = $count;
             $new1_m[] = $cen;
@@ -648,6 +672,9 @@ class Rank extends Base {
         $new2_m = array();
         foreach ($list2_m as $u => $val){
             $count = count($list2_m[$u])*1;
+            if ($u == 'visitor') {
+                continue;
+            }
             $cen['userid'] = $u;
             $cen['score'] = $count;
             $new2_m[] = $cen;
@@ -663,6 +690,9 @@ class Rank extends Base {
         $new3_m = array();
         foreach ($list3_m as $u => $val){
             $count = count($list3_m[$u])*1;
+            if ($u == 'visitor') {
+                continue;
+            }
             $cen['userid'] = $u;
             $cen['score'] = $count;
             $new3_m[] = $cen;
@@ -674,16 +704,23 @@ class Rank extends Base {
             $k = $value['userid'];
             $list4_m[$k][] = $value;
         }
+
         $news4_m = array();
+
         foreach($list4_m as $u => $val){
             $count = 0;
             foreach($val as $valu){
                 $count += $valu->score;
             }
+            if ($u == 'visitor') {
+                continue;
+            }
             $cen['userid'] = $u;
             $cen['score'] = $count;
             $news4_m[] = $cen;
         }
+
+
 
         $center_m = array();
         foreach ($new1_m as $k1 => $v1){
@@ -750,7 +787,6 @@ class Rank extends Base {
                 $item_m[$v['id']]['score']+=$v['score'];
             }
         }
-
         //倒序，字段score排序
         $arrSort_m = array();
         foreach ($item_m as $k => $v){
