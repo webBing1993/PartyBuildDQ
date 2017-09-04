@@ -64,11 +64,9 @@ class Volunteer extends Base{
             $value['path'] = $img['path'];
             $value['time'] = date('Y-m-d',$value['create_time']);
         }
-        if($list) {
-            return $this->success("加载成功","",$list);
-        }else{
-            return $this->error("加载失败");
-        }
+
+        return $this->success("加载成功","",$list);
+
     }
 
     /**
