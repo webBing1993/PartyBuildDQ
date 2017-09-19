@@ -33,6 +33,8 @@ class Index extends Controller {
         $result = $Wechat->getUserId(input('code'), config('party.agentid'));
         if(isset($result['UserId'])) {
             $user = $Wechat->getUserInfo($result['UserId']);
+            $user['extattr'] = json_encode($user['extattr']);
+            $user['order'] = json_encode($user['order']);
 
             // 添加本地数据
             $UserAPI = new APIIndex();
