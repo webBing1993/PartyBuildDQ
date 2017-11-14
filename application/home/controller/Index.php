@@ -31,31 +31,39 @@ class Index extends Controller {
         // 获取用户信息
         $Wechat = new TPQYWechat(config('party'));
         $result = $Wechat->getUserId(input('code'), config('party.agentid'));
-        if(isset($result['UserId'])) {
-            $user = $Wechat->getUserInfo($result['UserId']);
-            $user['extattr'] = json_encode($user['extattr']);
-            $user['order'] = json_encode($user['order']);
-
-            // 添加本地数据
-            $UserAPI = new APIIndex();
-            $localUser = $UserAPI->checkWechatUser($result['UserId']);
-            if($localUser) {
-                $UserAPI->updateWechatUser($user);
-            } else {
-                $UserAPI->addWechatUser($user);
-            }
-            session("userId", $result['UserId']);
-            //存在url则跳转，不存在则回主页
-            if(session('url')){
-                $this->redirect(session('url'));
-                session('url','');
-            }else{
-                $this->redirect("Structure/index");
-            }
+        if(empty($result['UserId'])) {
+            session('userId', 'visitor');//游客userid为0
+            session('name', '游客');
         } else {
-            // 用户不存在通讯录默认为游客，跳转到url;
-            session('userId','visitor');
-            $this->redirect(session('url'));
+            $userInfo = $Wechat->getUserInfo($result['UserId']);
+            $data = [
+                'userid' => $userInfo['userid'],
+                'name' => $userInfo['name'],
+                'mobile' => $userInfo['mobile'],
+                'gender' => $userInfo['gender'],
+                'avatar' => $userInfo['avatar'],
+                'department' => json_encode($userInfo['department']), //只选第一个所属部门
+                'status' => $userInfo['status'],
+                'order' => json_encode($userInfo['order']),
+            ];
+            if(isset($userInfo['extattr']['attrs'])) {
+                $data['extattr'] = json_encode($userInfo['extattr']['attrs']);
+            }
+
+            $wechatUser = new WechatUser();
+            if ($wechatUser->checkUserExist($userInfo['userid'])) {
+                $wechatUser->save($data, ['userid' => $userInfo['userid']]);
+            } else {
+                $wechatUser->save($data);
+            }
+
+            session('userId', $userInfo['userid']);
+            session('name', $userInfo['name']);
+            session('gender', $userInfo['gender']);
+            session('avatar', $userInfo['avatar']);
+            session('department', $userInfo['department'][0]);
+
+            $this->redirect(session('requestUri'));
         }
     }
 }

@@ -10,5 +10,7 @@ namespace app\home\model;
 use think\Model;
 
 class WechatUser extends Model {
-
+    public function checkUserExist($userId) {
+        return $this->where('userId', $userId)->find();
+    }
 }
