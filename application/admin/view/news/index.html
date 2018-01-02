@@ -61,6 +61,7 @@
                                 <td>{$vo.recommend_text}</td>
                                 <td>{$vo.status_text}</td>
                                 <td>
+                                    <a href="javascript:showIframe({$vo.id})">预览</a>
                                     <a href="{:Url('News/edit?id='.$vo['id'])}">修改</a>
                                     &emsp;<a href="{:Url('News/del?id='.$vo['id'])}" class="confirm ajax-del">删除</a>
                                 </td>
@@ -81,7 +82,7 @@
         </div>
     </div>
 </div>
-<iframe id="iframe" src="" style="height: 80%;width: 392px;z-index: 99;position: absolute;top: 10%;border: 0;left: 32%;background: #fff;display: none;" scrolling="auto" seamless></iframe>
+<iframe id="iframe" src="" style="height: 80%;width: 60%;z-index: 99;position: absolute;top: 10%;border: 0;left: 50%;margin-left: -30%;background: #fff;display: none;" scrolling="auto" seamless></iframe>
 <div class="shadow" style="display: none"></div>
 {/block}
 
@@ -94,6 +95,23 @@
             radioClass: 'iradio_square-green',
         });
     });
+
+    function showIframe(myid){
+        var iframe = $("#iframe");
+        var url = "/admin/news/preview/id/" + myid;
+        iframe.attr("src",url);
+        iframe.show();
+        $(".shadow").show();
+        $(".wrapper").css("z-index",0);
+        close(iframe);
+    }
+
+    function close(ele){
+        $(".shadow").on('click',function(){
+            $(this).hide();
+            ele.hide();
+        });
+    }
 
 </script>
 {/block}

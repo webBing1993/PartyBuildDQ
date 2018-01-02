@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css">
+    <style type="text/css">
+        *{margin:0;padding:0;}
+        a{text-decoration:none;}
+        ul li{list-style:none;}
+        body{font-size:12px;font-family:"微软雅黑";color:#666;overflow-x:hidden;overflow-y:auto;position: relative}
+        html,body{height: 100%;}
+        .all{width: 100%;height: 100%;position: relative}
+        .fl {float: left}
+        .fr {float: right}
+        .row .z_banner{width: 100%;position: relative;height: 180px;}
+        .z_banner .z_stik{position:absolute;background:#333;opacity: 0.39;width:100%;height:100%;top: 0;z-index: 2;left: 0;}
+        .z_banner .z_title{position:absolute;width:100%;height:100%;text-align: center;top: 0;left: 0;z-index: 3;}
+        .z_banner .z_title .z_nav{color:#fff;font-size:18px;padding:30px 20px 0 20px;font-weight:900;text-align:center;height:80px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;display:-webkit-box;line-clamp:2;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+        .z_banner .z_title .z_data{height:30px;margin:0 auto;padding:10px 15px;text-align:center;color:#f1f1f1;font-size:12px;display: block;border-top: 1px solid #fff;}
+
+        .z_banner .z_curve{position:absolute;bottom:0;width:100%;height:10px;z-index: 3;}
+
+        .text{padding:20px 15px 0 15px;float: none;}
+        .text .z_text{color:#333;font-size:16px;text-indent: 2em;margin-top: 10px}
+        .text .z_text img{width:100%;height:180px;}
+        .text img{width:100%;}
+        .row .z_banner .bannerbox{width: 100%;height: 100%;position: relative;}
+        .row #banner{height: 100%;position: relative;}
+        .row #banner li{height: 100%;}
+        .row #banner li img{width:100%;height: 100%;}
+        .z_dy {position: absolute;bottom: 10px;right: 15px}
+        .z_dy input {padding: 3px 6px;background: #337ab7;font-size: 16px;color: #fff;border: 0;cursor: pointer}
+        .z_dy input:hover{background: #f1f1f1;color: #337ab7}
+    </style>
+</head>
+<body>
+<div class="all">
+    <div class="row">
+        <!--banner图-->
+        <div class="z_banner">
+            <!--透明层-->
+            <div class="z_stik"></div>
+            <div class="z_title">
+                <div class="z_nav">这里是标题区域</div>
+                <div class="z_data">
+                    <span class="fl">作者名</span><span class="fr">2017-01-02</span>
+                </div>
+            </div>
+            <img src="/home/images/curve.png" class="z_curve" />
+        </div>
+        <!--文章-->
+        <div class="col-xs-12 col-md-12 text">
+            <img src="/home/images/banner/1.jpg">
+            <div class="z_text">这里是内容的展示区域</div>
+        </div>
+    </div>
+</div>
+<div class="z_dy"><input id="btnPrint" type="button" value="打印" onclick="preview(1)" /> </div>
+</body>
+<script src="/admin/js/jquery-2.1.1.js"></script>
+<script>
+
+    function preview(oper)
+    {
+        $(".z_dy").hide();
+        window.print();
+
+        setTimeout(function () {
+            $(".z_dy").show()
+        },10);
+    }
+
+</script>
+</html>
