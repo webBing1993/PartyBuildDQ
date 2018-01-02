@@ -216,7 +216,7 @@ class News extends Admin {
         //发送给企业号
         $Wechat = new TPQYWechat(Config::get('review'));
         $message = array(
-            "touser" => "15036667391",
+//            "touser" => "15036667391",
 //            "totag" => "4",  // 审核组
             "msgtype" => 'news',
             "agentid" => 11,  // 消息审核
@@ -240,5 +240,15 @@ class News extends Admin {
         }else{
             return $this->error('发送失败');
         }
+    }
+    /**
+     * 新闻通知预览
+     */
+    public function preview(){
+        $Model = new NewsModel();
+        $id = input('id');
+        $list = $Model::get($id);
+        $this->assign('list',$list);
+        return $this->fetch();
     }
 }
